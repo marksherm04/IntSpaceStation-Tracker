@@ -2,26 +2,44 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0;
-    font-family: 'Oswald', sans-serif, white;
+    font-family: 'Oswald', sans-serif;
     background: whitesmoke;
-    
-    background-size: 100%;
-    background
+    background-image: url("https://svs.gsfc.nasa.gov/vis/a010000/a011600/a011695/s1-1024.jpg");
+    background-image: center;
+    color: whitesmoke;
+    width: 100%;
+}
 
+.main {
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
 }
 
 .header {
-    padding: 10px;
+    padding: 3px;
     text-align:center;
     font-size: 36px;
-    background: whitesmoke;
-    opacity: 0.7;
+    background: rgb(143, 153, 227);
+    opacity: 0.3;
     margin-bottom: 5%;
+    color: black;
+    width: 100%;
 }
 
-.pure-g map{
-    display:flex;   
-    text-align:center;
+.card {
+    display: flex;
+    justify-content: space-evenly;
+    background: rgb(143, 153, 227);
+    color: black;
+    opacity: 0.3;
+    padding: 5em 5em 5em 5em;
+    border-radius: 30px;
+    margin: 5em;
+    font-size: 24px;
+    font: bolder;
+}
 
-    
+.pure-g {
+    text-align: center;
 }
