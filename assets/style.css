@@ -20,8 +20,8 @@ body {
     padding: 3px;
     text-align:center;
     font-size: 36px;
-    background: rgb(170, 171, 177);
-    opacity: 0.3;
+    background: white;
+    opacity: 0.6;
     margin-bottom: 5%;
     color: black;
     width: 100%;
@@ -30,9 +30,9 @@ body {
 .card {
     display: flex;
     justify-content: space-evenly;
-    background: rgb(125, 126, 191);
+    background: white;
     color: black;
-    opacity: 0.3;
+    opacity: 0.6;
     padding: 5em 5em 5em 5em;
     border-radius: 30px;
     margin: 5em;
@@ -42,4 +42,8 @@ body {
 
 .pure-g {
     text-align: center;
+}
+
+#map {
+    height: 100%;
 }
