@@ -1,0 +1,12 @@
+body {
+    font-family: 'Oswald', sans-serif;
+}
+
+.header {
+    padding: 10px;
+    text-align:center;
+    font-size: 36px;
+    background: gray;
+    opacity: 0.8;
+    margin-bottom: 5%;
+}
