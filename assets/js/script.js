@@ -15,7 +15,7 @@ async function getSpaceStationData() {
       alt: data.altitude,
       vel: data.velocity
   };
-  return satelliteData;
+  return spaceStationData;
 }
 
 function updateSpaceStationData(lat, lng, alt, vel) {
@@ -34,8 +34,8 @@ function updateSatellitePosition(coords, marker) {
 function initMap() {  // Initialize and add the map
   const latLng = { lat: 40, lng: -86 }; // starting map location in Indiana
 
-  updateSpaceStationData("Acquire Latitude", " Acquire Longitude", // Showing acquire stats prior to showing when satellite appears
-        "Acquire Altitude", "Acquire Velocity");
+  updateSpaceStationData("Searching Latitude...", "Searching Longitude...", // Showing acquire stats prior to showing when satellite appears
+        "Searching Altitude...", "Searching Velocity....");
 
   
   const map = new google.maps.Map(document.getElementById("map"), {
@@ -64,7 +64,7 @@ function initMap() {  // Initialize and add the map
       updateSpaceStationData(spaceStationData.lat, spaceStationData.lng, spaceStationData.alt, spaceStationData.vel);
       updateSatellitePosition(coordinates, marker);
     });
-  }, 3000);
+  }, 2000);
   }
 
 window.onload = () => initMap();
