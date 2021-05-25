@@ -1,8 +1,4 @@
-// moment.js date displaying in header
-const todayDate = moment();
-const displayTodayDate = document.getElementById("today-date");
-const apiSatelliteKey = 'https://api.wheretheiss.at/v1/satellites/25544';
-const apiGoogleMapsKey = 'AIzaSyD_Crb9951lcxLTaWO_6ZB9Y-CsgUlnWOY';
+const apiSpaceStation = "https://api.wheretheiss.at/v1/satellites/25544";
 
 
 async function fetchData(url) {
@@ -11,10 +7,9 @@ async function fetchData(url) {
   return data;
 }
 
-
-async function getSatelliteData() {
-  const data = await fetchData(apiSatelliteKey);
-  const satelliteData = {
+async function getSpaceStationData() {
+  const data = await fetchData(apiSpaceStation);
+  const spaceStationData = {
       lat: data.latitude,
       lng: data.longitude,
       alt: data.altitude,
@@ -23,36 +18,53 @@ async function getSatelliteData() {
   return satelliteData;
 }
 
-function updateSatelliteData(latitude, longitude, altitude, velocity) {
-  document.getElementById('latitude').textContent = latitude;
-  document.getElementById('longitude').textContent = longitude;
-  document.getElementById('altitude').textContent = altitude;
-  document.getElementById('velocity').textContent = velocity;
+function updateSpaceStationData(lat, lng, alt, vel) {
+  document.getElementById("latitude").textContent = lat;
+  document.getElementById("longitude").textContent = lng;
+  document.getElementById("altitude").textContent = alt;
+  document.getElementById("velocity").textContent = vel;
 }
 
-function updatePosition(coords, marker) {
-  const newPosition = new google.maps.LatLng(coords.latitude, coords.longitude);
+function updateSatellitePosition(coords, marker) {
+  const newPosition = new google.maps.LatLng(coords.lat, coords.lng);
   marker.setPosition(newPosition);
 }
 
-// Initialize and add the map
-function initMap() {
-  // The location of IN, USA
-  const usa = { lat: 40, lng: -86 };
 
-  updateSatelliteData('Acquiring lattitude...', 'Acquiring longitude...',
-        'Acquiring altitude...', 'Acquiring velocity...');
+function initMap() {  // Initialize and add the map
+  const latLng = { lat: 40, lng: -86 }; // starting map location in Indiana
 
-  // The map, centered at Uluru
+  updateSpaceStationData("Acquire Latitude", " Acquire Longitude", // Showing acquire stats prior to showing when satellite appears
+        "Acquire Altitude", "Acquire Velocity");
+
+  
   const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 5,
-    center: usa,
+    center: latLng,
     streetViewControl: false,
-    mapTypeId: 'hybrid'
+    mapTypeId: "hybrid"
   });
-  // The marker, positioned at IN, USA
-  const marker = new google.maps.Marker({
-    position: usa,
+
+  const satelliteMarker = new google.maps.Marker({
+    title: "Space Station",
+    position: latLng,
     map: map,
+    clickable: true,
+    icon: {
+      url: "NEED PNG OF SATELLITE",
+      scaledSize: new google.maps.Size(40, 40)
+    }
   });
-}
+
+  setInterval(() => {
+    const promise = getSpaceStationData();
+    promise.then(spaceStationData => {
+      const coordinates = { lat: spaceStationData.lat, lng: spaceStationData.lng };
+      map.setCenter(coordinates);
+      updateSpaceStationData(spaceStationData.lat, spaceStationData.lng, spaceStationData.alt, spaceStationData.vel);
+      updateSatellitePosition(coordinates, marker);
+    });
+  }, 3000);
+  }
+
+window.onload = () => initMap();
