@@ -17,7 +17,7 @@ An application that allows you to track the current location, altitude, and velo
 
 Website Link
 
-Click [here](https://marksherm04.github.io/weather-dashboard-pro/) to go to the International Space Station Tracker and Quiz.
+Click [here](https://marksherm04.github.io/IntSpaceStation-Tracker/) to go to the International Space Station Tracker and Quiz.
 
 ## Screenshot
 

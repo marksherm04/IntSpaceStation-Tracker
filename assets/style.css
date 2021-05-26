@@ -40,6 +40,20 @@ body {
     font: bolder;
 }
 
+.card button {
+  background: #834bc2;
+  border: none;
+  border-radius: 10px;
+  color: white;
+}
+
+.card button:hover {
+  background: #B9D1FF;
+  border: none;
+  color: black;
+  cursor: pointer;
+}
+
 .pure-g {
     text-align: center;
 }
@@ -72,11 +86,11 @@ body {
     border-radius: 10px;
     color: white;
     display: block;
-    font-size: 15px;
+    font-size: 18px;
     margin: auto;
     margin-bottom: 10px;
     outline: none;
-    padding: 20px;
+    padding: 14px;
     width: 100%;
 }
 
@@ -100,7 +114,6 @@ body {
 /*Start of Modal Styling */
 .modal {
     display: none;
-    
     z-index: 1;
     padding-top: 45px;
     padding-bottom: 40px;
@@ -112,6 +125,7 @@ body {
     background-color: rgba(0, 0, 0, 0.5);
     
   }
+  
   .modal-content {
     position: center; 
     background-color: white;
@@ -124,20 +138,25 @@ body {
     animation-name: animatetop;
     animation-duration: 0.4s
   }
+
   .close-btn {
     float: right; 
     color: grey; 
-    font-size: 24px;  
+    font-size: 36px;  
     font-weight: bold;
     cursor: pointer;
   }
+
   .close-btn:hover {
     color: black;
+    transition: 0.3s;
   }
+
   @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
   }
+
   @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
