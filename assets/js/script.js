@@ -51,8 +51,9 @@ function initMap() {  // Initialize and add the map
     map: map,
     clickable: true,
     icon: {
-      url: "images/satellite-icon.png",
-      scaledSize: new google.maps.Size(40, 40)
+      url: "images/iss-emblem.png",
+      scaledSize: new google.maps.Size(70, 70)
+      
     }
   });
 
@@ -68,7 +69,9 @@ function initMap() {  // Initialize and add the map
   }
 
 window.onload = () => initMap();
+// END GOOGLE MAPS TRACKER AND LAT/LNG TRACKER
 
+//START QUIZ
 //Code for the Quiz
 document.addEventListener('DOMContentLoaded', (event) => {
 
