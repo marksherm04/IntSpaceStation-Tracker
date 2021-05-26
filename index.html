@@ -42,55 +42,13 @@
 
         <div class="pure-g">
             <div class="pure-u-1-2 Quiz">
-                <div class="card" id="cardQuiz">
-                    <header class="info">
-                        <button id="quizScores" href="">View High Scores</button>
-                        <div id="timer"><p>Time: <span id="time">0</span></p></div>
-                    </header>
-                    <div class="codeQuiz">
-                        <section id="quizIntro" >
-                            <h1>Quiz Challenge</h1>
-                            <p>
-                            Try to answer the following code-related questions within the time limt. 
-                            Keep in mind that incorrect answers will penalize your score/time by ten seconds!
-                            </p>
-                            <button>Start Quiz</button>
-                        </section>
-                
-                        <section id="quizContent" class="hide">
-                            <p id="title"></p>
-                            <button></button>
-                            <button></button>
-                            <button></button>
-                            <button></button>
-                            <div id="scoreProvider" class="invisible">
-                                <p>&nbsp;</p>
-                            </div>
-                        </section>
-                
-                        <section id="finishedQuiz" class="hide">
-                            <h1>Quiz complete!</h1>
-                            <p>Your final score is&nbsp; <span id="score"></span></p>
-                            <div id ="scoreRecords">
-                                <p>Enter initials: </p><input id="initials" type="text"> <button id="submit">Submit</button>
-                            </div>
-                            <div id = "errors" class="invisible">
-                                <p>&nbsp;</p>
-                            </div>
-                        </section>
-                
-                        <section id="highScores" class="hide">
-                            <h1>High Scores</h1>
-                            <div>
-                
-                            </div>
-                            <button id="reset">Go Back</button> 
-                            <button id="clearScores">Clear High Scores</button>
-                        </section>
-                    </div>
-
+                <div class="card" id="quiz-card">
+                    <section class="quizCard" id="cardQuiz">
+                        <h1 id="questionTitle"></h1>
+                        <div id="questionButton"></div>
+                        <h1 id="questionNumber"></h1>
+                    </section>
                 </div>
-            </div>
             <div class="pure-u-1-2">
                 <div class="card">
                     <!-- button for fetching current ISS occupants -->

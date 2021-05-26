@@ -74,232 +74,177 @@ window.onload = () => initMap();
 
 //START QUIZ
 //Code for the Quiz
-document.addEventListener('DOMContentLoaded', (event) => {
+const API_URL = "https://opentdb.com/api.php?amount=10";
+const CategoriesURL = "https://opentdb.com/api_category.php";
+let index = 0;
+let score = 0;
 
-  //Array of questions
-  var questions = [
-      {
-          question: "Commonly used data types DO NOT include: ",
-          choices: ["strings", "booleans", "alerts", "numbers"],
-          answer: "alerts"
-      },
-      {
-          question: "The condition in an if / else statement is enclosed within .",
-          choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
-          answer: "parentheses"
-      },
-      {
-          question: "Which of these is NOT used to loop?",
-          choices: ["for", "while", "foreach", "sequence"],
-          answer: "sequence"
-      },
-      {
-          question: "which of these is not a way to save a variable?",
-          choices: ["vet", "var", "let", "const"],
-          answer: "vet"
-      },
-      {
-          question: "JS date function starts in seconds to current day from what day in 1970?",
-          choices: ["January 1", "December 31", "June 1", "April 23"],
-          answer: "January 1"
-      },
-  ];
+// This function fetches the raw data from the API
+async function fetchData(APIurl) {
+    const response = await fetch(APIurl);
+    return response.json();
+}
 
-  //Additional Initial Variables
-  const initialTime = 75;
-  let time = 75;
-  let score = 0;
-  let qCount = 0;
-  let timeset;
-  let answers = document.querySelectorAll('#quizContent button');
+// fetches the categories data from the API
+async function fetchCategoriesFromAPI() {
+    const data = await fetchData(CategoriesURL);
+    return data.trivia_categories;
+}
 
-  //Set the array and if local storage exists it will be populated into the array of records. 
-  let recordsArray = [];
-  //Retrieve the data if it exists, otherwise, keep the array empty
-  (localStorage.getItem('recordsArray')) ? recordsArray = JSON.parse(localStorage.getItem('recordsArray')): recordsArray = [];
+// fetches questions from the API and returns an object of questions with answers
+async function fetchQuestionsFromAPI(APIurl) {
+    const data = await fetchData(APIurl);
+    if (data.response_code === 0) {
+        const quizQuestions = data.results;
+        const list = [];
+        quizQuestions.forEach(element => {
+            const question = {
+                question: decodeCharacters(element.question),
+                answers: shuffleQuiz(element.incorrect_answers.concat(element.correct_answer)), 
+                correct: decodeCharacters(element.correct_answer)
+            }
+            list.push(question);
+        });
+        return list;
+    }
+    return false;
+}
 
-  //Function to more efficiently call elments
-  let queryElement = (element) => {
-      return document.querySelector(element);
-  }
+// Fisher-Yates array shuffling algorithm that shuffles through the questions randomly. 
+function shuffleQuiz(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * i)
+        const temp = array[i]
+        array[i] = array[j]
+        array[j] = temp
+    }
+    return array;
+}
 
-  //Function that hides all sections and then unhides the section that is needed
-  let onlyDisplaySection = (element) => {
-      let sections = document.querySelectorAll("#cardQuiz section");
-      Array.from(sections).forEach((userItem) => {
-          userItem.classList.add('hide');
-      });
-      queryElement(element).classList.remove('hide');
-  }
+//Decodes special HTML characters
+function decodeCharacters(specialCharacterString) {
+    const text = document.createElement('textarea');
+    text.innerHTML = specialCharacterString;
+    return text.value;
+}
 
-  //Function that is called to reset the HTML display for the score
-  let recordsHtmlReset = () => {
-      queryElement('#highScores div').innerHTML = "";
-      var i = 1;
-      recordsArray.sort((a,b) => b.score - a.score);
-      Array.from(recordsArray).forEach(check =>
-      {
-          var scores = document.createElement("div");
-          scores.innerHTML = i + "." + check.initialRecord + "-" + check.score;
-          queryElement('#highScores div').appendChild(scores);
-          ++i;
-      });
-      i = 0;
-      Array.from(answers).forEach(answer => {
-          answer.classList.remove('disable');
-      });
-  }
+//Sets the title for the h1 tag that is displayed at the top of the screen
+function title(string) {
+    const title = document.getElementById('questionTitle'); //The title constant is set to be equal to the questionTitle div, which will allow the tite text to be displayed to the webpage.
+    title.innerText = string; //Displays that title to the associated div
+}
 
-  //Funtion to set the question data for the question-content section
-  let setQuestionData = () => {
-      queryElement('#quizContent p').innerHTML = questions[qCount].question;
-      queryElement('#quizContent button:nth-of-type(1)').innerHTML = '1. ' + questions[qCount].choices[0];
-      queryElement('#quizContent button:nth-of-type(2)').innerHTML = '2. ' + questions[qCount].choices[1];
-      queryElement('#quizContent button:nth-of-type(3)').innerHTML = '3. ' + questions[qCount].choices[2];
-      queryElement('#quizContent button:nth-of-type(4)').innerHTML = '4. ' + questions[qCount].choices[3];
-  }
+//Removes buttons from the div tag so that they are only displayed when needed
+function removeButtons() {
+    const div = document.getElementById('questionButton');
+    while (div.firstChild) {
+        div.removeChild(div.firstChild);
+    }
+}
 
-  //Function that changes the question and uses a parameter to control what text is displayed based on the question. It will also provide a response of whether the answers provided are correct or not
-  let quizUpdate = (answerCopy) => {
-      queryElement('#scoreProvider p').innerHTML = answerCopy;
-      queryElement('#scoreProvider').classList.remove('invisible', scoreProvider());
-      Array.from(answers).forEach(answer =>
-          {
-              answer.classList.add('disable');
-          });
+//Sets the question number at the bottom of the quiz by using the questionNumber div and uses the h1Element constant to display it to the screen
+function QuestionNumber() {
+    let questionNumber = index + 1;
+    const h1Element = document.getElementById('questionNumber'); 
+    h1Element.classList.add('number');
+    h1Element.innerText = questionNumber + '/10';
+}
 
-      //If all the question have been answered or the timer reaches 0 the quiz section is exited and the final score is diplayed
-      setTimeout(() => {
-          if (qCount === questions.length) {
-              onlyDisplaySection("#finishedQuiz");
-              time = 0;
-              queryElement('#time').innerHTML = time;
-          }
-          else {
-              setQuestionData();
-              Array.from(answers).forEach(answer => {
-              answer.classList.remove('disable');
-              });
-          }
-      }, 1000);
-  }
+//Sets the buttons for each question by setting the constant div equal to the questionButton ID and uses a loop to change the text displayed on the button based on the questions from the QuestionNumber function
+function questionButtons(list, answers, correct) {
+    const div = document.getElementById('questionButton'); 
+    QuestionNumber();
+    answers.forEach(element => {
+        const button = document.createElement('button');
+        const text = document.createTextNode(decodeCharacters(element)); // decoding special characters from answers
+        button.appendChild(text);
+        button.classList.add('btn');
+        div.appendChild(button);
+        button.addEventListener('click', () => questionButtonEventHandler(button, correct, list));
+    });
+}
 
-  //Function for time decrement during the quiz
-  let myTimer = () => {
-      if (time > 0) {
-          time = time - 1;
-          queryElement('#time').innerHTML = time;
-      }
-      else {
-          clearInterval(clock);
-          queryElement('#score').innerHTML = score;
-          onlyDisplaySection("#finishedQuiz");
-      }
-  }
+//Event handler for the question buttons
+function questionButtonEventHandler(button, correctAnswer, list) {
+    const pressedButton = button.innerText;
+    if (pressedButton === correctAnswer) { //If the user selects the correct answer, the score increments by one.
+        score++;
+        
+    } else {
+        alert('Wrong. The correct answer is: ' + correctAnswer); //If the user selects the incorrect answer, the user is alerted that they selected the wrong answer and told what the correct answer is.
+        //Need to use a modal instead but having trouble
+    
+    }
+    index++; //After each question, the index choses the next question until it reaches 10 questions. 
+    removeButtons(); //Runs the removeButtons function that 
+    quizStart(list); //Runs the Quiz Start function that includes the list of questions pulled from the API based on the category selected. 
+}
 
-  //Quiz Start and Timer
-  let clock;
-      queryElement("#quizIntro button").addEventListener("click", (e) => {
-      setQuestionData();
-      onlyDisplaySection("#quizContent")
-      clock = setInterval(myTimer, 1000);
-  });
+//Removes the question number from the bottom when it is no longer needed
+function removeQuestionNumber() {
+    const h1Element = document.getElementById('questionNumber');
+    h1Element.classList.remove('number');
+    h1Element.innerText = '';
+}
 
-  let scoreProvider = () => {
-      clearTimeout(timeset);
-      timeset = setTimeout(() => {
-          queryElement('#scoreProvider').classList.add('invisible');
+//Shows the restart button at the end of the quiz
+function showRestartButton() {
+    removeQuestionNumber();
+    const div = document.getElementById('questionButton');
+    const button = document.createElement('button');
+    const text = document.createTextNode('Restart');
+    button.classList.add('btn');
+    button.appendChild(text);
+    div.appendChild(button);
+    button.addEventListener('click', () => document.location.reload(true));
+}
 
-      }, 1000);
-  }
-  
-  //Quiz Answer Checking
-  Array.from(answers).forEach(check => {
-      check.addEventListener('click', function (event) {
-          if (this.innerHTML.substring(3, this.length) === questions[qCount].answer) {
-              score = time;
-              qCount = qCount + 1;
-              quizUpdate("Correct");
-          } 
-          else {
-              time = time - 10;
-              qCount = qCount + 1;
-              score = time;
-              quizUpdate("Wrong");
-          }
-      });
-  });
+//Starts the quiz and will load one question at a time from the API
+function quizStart(questionList) {
+    const numberOfQuestions = questionList.length - 1;
+    if (index === numberOfQuestions) {
+        title('Your final score is ' + score + '/10');
+        showRestartButton();
+        return;
+    }
+    title(questionList[index].question);
+    questionButtons(questionList, questionList[index].answers, questionList[index].correct);
+}
 
-  //Score Submission
+//Sets the categories from the API as buttons that the user can select to pick a cateogory
+async function categoryButtons() {
+    const categories = await fetchCategoriesFromAPI();
+    const buttonList = document.getElementById('questionButton');
 
-  //Displays error message if initials given do not meet requirements
-  let errors = () => {
-      clearTimeout(timeset);
-      timeset = setTimeout(() => {
-          queryElement('#errors').classList.add('invisible');
-      }, 3000);
-  }
+    for (const category of categories) {
+        const button = document.createElement('button');
+        const text = document.createTextNode(category.name);
+        button.setAttribute('id', category.id);
+        button.classList.add('btn');
+        button.appendChild(text);
+        buttonList.appendChild(button);
+        button.addEventListener('click', () => categoryButtonEventHandler(button));
+    }
+}
 
-  //Error handling for submiting high scores
-  queryElement("#submit").addEventListener("click", () => {
-      let initialsRecord = queryElement('#initials').value;
-      if (initialsRecord === ''){
-          queryElement('#errors p').innerHTML = "You need at least 1 character";
-          queryElement('#errors').classList.remove('invisible', errors());
-      }
-      else if (initialsRecord.match(/[[A-Za-z]/) === null) {
-          queryElement('#errors p').innerHTML = "Only letters for initials allowed.";
-          queryElement('#errors').classList.remove('invisible', errors());
-      }
-      else if (initialsRecord.length > 5) {
-          queryElement('#errors p').innerHTML = "Maximum of 5 characters allowed.";
-          queryElement('#errors').classList.remove('invisible', errors());
-      }
-      else {
-          //Sends value to current array for use now.
-          recordsArray.push({
-              "initialRecord": initialsRecord,
-              "score": score
-           });
+//Event handler for the category buttons that determines whether a category was selected or not, removes all other buttons, and starts the quiz
+async function categoryButtonEventHandler(button) {
+    const api_url = API_URL + '&category=' + button.id;
+    const list = await fetchQuestionsFromAPI(api_url);
+    if (list === false) {
+        alert('Could not load quiz. Try again later.');
+        return;
+    }
+    removeButtons();
+    quizStart(list);
+}
 
-          //Sends value to local storage for later use.
-          localStorage.setItem('recordsArray', JSON.stringify(recordsArray));
-          queryElement('#highScores div').innerHTML = '';
-          onlyDisplaySection("#highScores");
-          recordsHtmlReset();
-          queryElement("#initials").value = '';
-      }
-  });
-  //High Score and Local Storage
-  //Clears the highscores from the html, array, and local storage
-  queryElement('#clearScores').addEventListener("click", () => {
-      recordsArray = [];
-      queryElement('#highScores div').innerHTML = "";
-      localStorage.removeItem('recordsArray');
-  });
+function API_main_function() { //Sets the title for the quz and runs the categoryButtons function that displays the category buttons to the user. 
+    title('Categories for Quiz');
+    categoryButtons();
+}
 
-  //Resets all quiz settings to the default so that the user can replay the quiz
-  queryElement("#reset").addEventListener("click", () => {
-      time = initialTime;
-      score = 0;
-      qCount = 0;
-      onlyDisplaySection("#quizIntro");
-  });
-
-  //This part leaves the quiz to view the high scores in the case that the user does this before completing the quiz
-  queryElement("#quizScores").addEventListener("click", (e) => {
-      e.preventDefault();
-      clearInterval(clock);
-      queryElement('#time').innerHTML = 0;
-      time = initialTime;
-      score = 0;
-      qCount = 0;
-      onlyDisplaySection("#highScores");
-      recordsHtmlReset();
-  });
-
-
-});
+API_main_function();
 
 // modal begin
 let modalBtn = document.getElementById("modal-btn")
