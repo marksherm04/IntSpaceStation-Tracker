@@ -86,6 +86,7 @@ body {
 
 .card .info {
     display: flex;
+    flex-direction: column;
 }
 .card .infoSection {
     background-color: #41275e;
