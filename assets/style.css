@@ -59,125 +59,45 @@ body {
   }
 
 /* CSS for Quiz */
-.card #highScores div div {
-    padding: 5px;
-    font-weight: 600;
+.quizCard h1 {
+    color: black;
+    font-weight: 800;
+    margin: auto;
+    margin-bottom: 20px;
 }
 
-.card #highScores div div:nth-child(odd){
-    background-color: #efe6f9;
-}
-
-.card #highScores button{
-    margin: 5px 0;
-}
-
-.card .codeQuiz { 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: calc(100% - 110px)
-}
-
-.card .codeQuiz section {
-    max-width: 50%;
-    margin: 0 auto;
-}
-
-.card .info {
-    display: flex;
-    flex-direction: column;
-}
-.card .infoSection {
-    background-color: #41275e;
-    color: white;
-    display:flex;
-    justify-content: space-between;
-    flex-direction: column;
-    padding: 16px 30px;
-}
-
-.card .infoSection #quizScores {
-    left:40px;
-    background-color: #834bc2;
-    color: white;    
-}
-
-.card .infoSection #timer {
-    right:40px;
-}
-
-.card #codeQuiz #quizInto {
-    text-align: center;
-}
-
-.card button {
-    background-color:rgb(201, 179, 216);
-    color:black;
-    font-weight: bold;
+.btn {
+    background: #834bc2;
     border: none;
-    padding:5px;
-    border-radius: 5px;
-    cursor:pointer;
-}
-
-.card button:hover {
-    background-color: rgb(171, 139, 191);
-    transition: 0.3s;
-}
-
-
-.card #codeQuiz #quizContent button {
-    background-color:#41275e;
-    border-radius:5px;
-    color:white;
-    margin: 3px 0;
-    padding: 5px 5px ;
-    cursor:pointer;
+    border-radius: 10px;
+    color: white;
     display: block;
+    font-size: 15px;
+    margin: auto;
+    margin-bottom: 10px;
+    outline: none;
+    padding: 20px;
     width: 100%;
-    text-align: left;
 }
 
-.card #codeQuiz #quizContent button:hover {
-    background-color: #613a8d;
+.btn:hover {
+    background: #B9D1FF;
+    border: none;
+    color: black;
+    cursor: pointer;
 }
 
-.card #codeQuiz #quizContent #scoreProvider, .card #codeQuiz #finsihedQuiz #errors {
-    border-top: 1px solid #999;
-    color: #41275e;
-    font-size: 1.3em;
-    margin: 0;
-    font-style: italic;
-    font-weight:700;
-    margin: 10px auto;
+.number {
+    padding: 10px 0px 10px 0px;
 }
-
-.card #codeQuiz #quizContent #scoreProvider p, .card #codeQuiz #finsihedQuiz #errors p {
-    margin:0;
-    margin-top:10px;
-}
-
-.card #codeQuiz #finishedQuiz #scoreRecords input, .card #codeQuiz #finishedQuiz #scoreRecords button {
-    margin-top:5px;
-}
-
-.hide {
-    display: none;
-}
-
-.invisible {
-    visibility: hidden;
-}
-
-.disable {
-    pointer-events: none;
-}
+/* End of quiz styling */
 
 .pure-g {
     text-align: center;
 }
 
+
+/*Start of Modal Styling */
 .modal {
     display: none;
     

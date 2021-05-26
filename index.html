@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/grids-responsive-min.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
 
@@ -42,55 +42,13 @@
 
         <div class="pure-g">
             <div class="pure-u-1-2 Quiz">
-                <div class="card" id="cardQuiz">
-                    <header class="info">
-                        <button id="quizScores" href="">View High Scores</button>
-                        <div id="timer"><p>Time: <span id="time">0</span></p></div>
-                    </header>
-                    <div class="codeQuiz">
-                        <section id="quizIntro" >
-                            <h1>Quiz Challenge</h1>
-                            <p>
-                            Try to answer the following code-related questions within the time limt. 
-                            Keep in mind that incorrect answers will penalize your score/time by ten seconds!
-                            </p>
-                            <button>Start Quiz</button>
-                        </section>
-                
-                        <section id="quizContent" class="hide">
-                            <p id="title"></p>
-                            <button></button>
-                            <button></button>
-                            <button></button>
-                            <button></button>
-                            <div id="scoreProvider" class="invisible">
-                                <p>&nbsp;</p>
-                            </div>
-                        </section>
-                
-                        <section id="finishedQuiz" class="hide">
-                            <h1>Quiz complete!</h1>
-                            <p>Your final score is&nbsp; <span id="score"></span></p>
-                            <div id ="scoreRecords">
-                                <p>Enter initials: </p><input id="initials" type="text"> <button id="submit">Submit</button>
-                            </div>
-                            <div id = "errors" class="invisible">
-                                <p>&nbsp;</p>
-                            </div>
-                        </section>
-                
-                        <section id="highScores" class="hide">
-                            <h1>High Scores</h1>
-                            <div>
-                
-                            </div>
-                            <button id="reset">Go Back</button> 
-                            <button id="clearScores">Clear High Scores</button>
-                        </section>
-                    </div>
-
+                <div class="card" id="quiz-card">
+                    <section class="quizCard" id="cardQuiz">
+                        <h1 id="questionTitle"></h1>
+                        <div id="questionButton"></div>
+                        <h1 id="questionNumber"></h1>
+                    </section>
                 </div>
-            </div>
             <div class="pure-u-1-2">
                 <div class="card">
                     <!-- button for fetching current ISS occupants -->
@@ -125,6 +83,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh3MAhVK8vAiE25mVZrwuB9XnqlS_rkoI&callback=initMap" async></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
-    <script src="assets/js/script.js"></script>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
