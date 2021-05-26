@@ -51,7 +51,7 @@ function initMap() {  // Initialize and add the map
     map: map,
     clickable: true,
     icon: {
-      url: "NEED PNG OF SATELLITE",
+      url: "images/satellite-icon.png",
       scaledSize: new google.maps.Size(40, 40)
     }
   });
