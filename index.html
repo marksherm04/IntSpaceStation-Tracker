@@ -15,6 +15,7 @@
 
     <div class="header">
         <h1>INTERNATIONAL SPACE STATION TRACKER</h1>
+        <h2 id="today-date"></h2>
     </div>
     
     <main>
@@ -92,15 +93,33 @@
             </div>
             <div class="pure-u-1-2">
                 <div class="card">
-                    <p>Clarity</p>
+                    <!-- button for fetching current ISS occupants -->
+                    <button id="modal-btn">Current ISS Astronauts</button>
+                    <div class="modal">
+                        <div class="modal-content">
+                        <span class="close-btn">&times;</span>
+                    <!-- can update this as occupants change -->
+                        <p>Current ISS Occupants: <br><br>
+                        NASA - Megan McArthur, Mark Vande Hei, and Shane Kimbrough
+                        <br>
+                        JAXA - Akihiko Hoshide 
+                        <br>
+                        European Space Agency - Thomas Pesquet 
+                        <br>
+                        Soviet Cosmonauts - Oleg Novitskiy & Pyotr Dubrov 
+                        </p>
+                </div>
+            </div>
+            <!-- end modal -->
                 </div>
             </div>
         </div>
               
     </main>
 
-    <script src="assets/js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh3MAhVK8vAiE25mVZrwuB9XnqlS_rkoI&callback=initMap" async></script>
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script src="assets/js/script.js"></script>
 </body>
 </html>
