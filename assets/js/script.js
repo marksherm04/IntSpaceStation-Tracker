@@ -5,7 +5,7 @@ async function fetchData(url) {
   const response = await fetch(url);
   const data = await response.json();
   return data;
-}
+};
 
 async function getSpaceStationData() {
   const data = await fetchData(apiSpaceStation);
@@ -14,25 +14,26 @@ async function getSpaceStationData() {
       lng: data.longitude,
       alt: data.altitude,
       vel: data.velocity
-  };
+  }
   return spaceStationData;
-}
+};
 
 function updateSpaceStationData(lat, lng, alt, vel) {
   document.getElementById("latitude").textContent = lat;
   document.getElementById("longitude").textContent = lng;
   document.getElementById("altitude").textContent = alt;
   document.getElementById("velocity").textContent = vel;
-}
+};
 
 function updateSatellitePosition(coords, marker) {
   const newPosition = new google.maps.LatLng(coords.lat, coords.lng);
   marker.setPosition(newPosition);
-}
+};
 
 
 function initMap() {  // Initialize and add the map
-  const latLng = { lat: 40, lng: -86 }; // starting map location in Indiana
+  const myLatLng = { lat: 40, lng: -86 }; // starting map location in Indiana
+  const currentLatLng = { updateSatellitePosition };
 
   updateSpaceStationData("Searching Latitude...", "Searching Longitude...", // Showing acquire stats prior to showing when satellite appears
         "Searching Altitude...", "Searching Velocity....");
@@ -40,22 +41,18 @@ function initMap() {  // Initialize and add the map
   
   const map = new google.maps.Map(document.getElementById("map"), {
     zoom: 5,
-    center: latLng,
-    streetViewControl: false,
-    mapTypeId: "hybrid"
-  });
+    mapTypeId: "hybrid",
+    streetViewControl: false
+});
 
   const satelliteMarker = new google.maps.Marker({
-    title: "Space Station",
-    position: latLng,
-    map: map,
-    clickable: true,
+    position: myLatLng,
+    map,
     icon: {
-      url: "images/iss-emblem.png",
-      scaledSize: new google.maps.Size(70, 70)
-      
-    }
-  });
+        url: "images/iss-emblem.png",
+        scaledSize: new google.maps.Size(80, 80),
+    },
+});
 
   setInterval(() => {
     const promise = getSpaceStationData();
@@ -63,10 +60,10 @@ function initMap() {  // Initialize and add the map
       const coordinates = { lat: spaceStationData.lat, lng: spaceStationData.lng };
       map.setCenter(coordinates);
       updateSpaceStationData(spaceStationData.lat, spaceStationData.lng, spaceStationData.alt, spaceStationData.vel);
-      updateSatellitePosition(coordinates, marker);
+      updateSatellitePosition(coordinates, satelliteMarker);
     });
-  }, 2000);
-  }
+  },  2000);
+};
 
 window.onload = () => initMap();
 // END GOOGLE MAPS TRACKER AND LAT/LNG TRACKER
