@@ -30,6 +30,5 @@ Click [here](https://marksherm04.github.io/IntSpaceStation-Tracker/) to go to th
 - International Space Station Tracker shows a live feed of where it is traveling over earth via Google Maps and is updated every 2 seconds.
 - Card to the right of the map shows the coordinates and speed at which the station is traveling.
 - Quiz randomly generates questions based off the API and which category is selected.
-- Quiz allows you to see the high scores locally.
 - Header shows current date via moment.js.
 - Modal shows current space station crew.
