@@ -112,7 +112,7 @@ body {
 }
 
 .card button {
-    background-color:rgb(192, 164, 210);
+    background-color:rgb(201, 179, 216);
     color:black;
     font-weight: bold;
     border: none;
@@ -122,7 +122,7 @@ body {
 }
 
 .card button:hover {
-    background-color: rgb(172, 116, 206);
+    background-color: rgb(171, 139, 191);
     transition: 0.3s;
 }
 
