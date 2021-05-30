@@ -130,9 +130,20 @@ function decodeCharacters(specialCharacterString) {
 
 //Sets the title for the h1 tag that is displayed at the top of the screen
 function title(string) {
-    const title = document.getElementById('questionTitle'); //The title constant is set to be equal to the questionTitle div, which will allow the tite text to be displayed to the webpage.
-    title.innerText = string; //Displays that title to the associated div
+    const title = document.getElementById('questionTitle'); //The title constant is set to be equal to the questionTitle h1, which will allow the tite text to be displayed to the webpage.
+    title.innerText = string; //Displays that title to the associated h1
 }
+
+function showcorrectAnswer(string) {
+    const showcorrectAnswer = document.getElementById('correctAnswer')
+    showcorrectAnswer.innerText = string;
+}
+
+function showincorrectAnswer(string) {
+    const showincorrectAnswer = document.getElementById('incorrectAnswer')
+    showincorrectAnswer.innerText = string;
+}
+
 
 //Removes buttons from the div tag so that they are only displayed when needed
 function removeButtons() {
@@ -155,13 +166,14 @@ function questionButtons(list, answers, correct) {
     const div = document.getElementById('questionButton'); 
     QuestionNumber();
     answers.forEach(element => {
-        const button = document.createElement('button');
+        const buttonQuestion = document.createElement('button');
         const text = document.createTextNode(decodeCharacters(element)); // decoding special characters from answers
-        button.appendChild(text);
-        button.classList.add('btn');
-        div.appendChild(button);
-        button.addEventListener('click', () => questionButtonEventHandler(button, correct, list));
+        buttonQuestion.appendChild(text);
+        buttonQuestion.classList.add('btn');
+        div.appendChild(buttonQuestion);
+        buttonQuestion.addEventListener('click', () => questionButtonEventHandler(buttonQuestion, correct, list));
     });
+    
 }
 
 //Event handler for the question buttons
@@ -169,15 +181,20 @@ function questionButtonEventHandler(button, correctAnswer, list) {
     const pressedButton = button.innerText;
     if (pressedButton === correctAnswer) { //If the user selects the correct answer, the score increments by one.
         score++;
+        showcorrectAnswer('Previous Answer: Correct!');
+        showincorrectAnswer('');
         
     } else {
-        alert('Wrong. The correct answer is: ' + correctAnswer); //If the user selects the incorrect answer, the user is alerted that they selected the wrong answer and told what the correct answer is.
-        //Need to use a modal instead but having trouble
-    
+        showincorrectAnswer('Previous Answer: Wrong. The correct answer is ' + correctAnswer);
+        showcorrectAnswer('');
     }
-    index++; //After each question, the index choses the next question until it reaches 10 questions. 
-    removeButtons(); //Runs the removeButtons function that 
+    NextQuestion();
+    removeButtons(); //Runs the removeButtons function that removes buttons that aren't needed.
     quizStart(list); //Runs the Quiz Start function that includes the list of questions pulled from the API based on the category selected. 
+}
+
+function NextQuestion() {
+    index++;
 }
 
 //Removes the question number from the bottom when it is no longer needed
@@ -198,6 +215,7 @@ function showRestartButton() {
     div.appendChild(button);
     button.addEventListener('click', () => document.location.reload(true));
 }
+
 
 //Starts the quiz and will load one question at a time from the API
 function quizStart(questionList) {
